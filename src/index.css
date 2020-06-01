@@ -626,7 +626,6 @@ body {
   --bg-opacity: 1;
   background-color: #1a202c;
   background-color: rgba(26, 32, 44, var(--bg-opacity));
-  background-image: url("data:image/svg+xml, <svg class='absolute bottom-0 z-0' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><pathfill='#D0E2FF'd='M58,-21.3C61,-9.5,39.6,7.8,18.1,23C-3.4,38.2,-25,51.2,-37.5,43.9C-50.1,36.7,-53.5,9.1,-45.7,-9.2C-37.9,-27.5,-19,-36.6,4.3,-37.9C27.5,-39.3,54.9,-33,58,-21.3Z'transform='translate(100 100)'/></svg> ");
 }
 
 .speech-bubble {

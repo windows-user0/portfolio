@@ -1,7 +1,6 @@
 import * as React from "react";
 import ExperienceTitle from "../components/ExperienceTitle";
 import ExperienceBadge from "../components/ExperienceBadge";
-import Visualizer from "../pages/Visualizer";
 export default () => {
   return (
     <div className="pt-10">
