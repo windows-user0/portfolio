@@ -7,9 +7,9 @@ export default () => {
   const [iframeLoaded, setIframeLoaded] = useState(false);
   return (
     <>
-      <div className=" flex flex-col lg:flex-row  h-full justify-between">
+      <div className=" flex flex-col lg:flex-row  h-full justify-center mt-12 md:p-5">
         <div
-          className="flex flex-col items-start w-full flex-grow px-5 md:px-20 justify-start py-12 "
+          className="flex flex-col items-start w-full flex-grow px-5 md:px-20 justify-start  "
           style={{ maxWidth: "75ch" }}
         >
           <ExperienceTitle text="Whotab">
@@ -32,12 +32,12 @@ export default () => {
           </span>
           <span>
             I learned a lot about how to maximize application performance. Any
-            kind of inefficiencies can be quickly seen in a animated widget.{" "}
+            inefficiencies peek their head out, in a animated widget.
           </span>
         </div>
         <div
-          style={{ height: "95vh" }}
-          className="resp-container lg:w-full max-w-5xl  items-end  content-end mx-0"
+          style={{ height: "80vh" }}
+          className="resp-container lg:w-full max-w-2xl  mt-10 md:mt-0 "
         >
           {/* Display loading until the iframe loads component loads */}
           {iframeLoaded ? null : <Loading />}
@@ -50,7 +50,7 @@ export default () => {
           ></iframe>
         </div>
       </div>
-      <div className=" flex flex-col lg:flex-row  h-full justify-between">
+      <div className=" flex flex-col lg:flex-row  h-full justify-center">
         <div
           className="flex flex-col items-start w-full flex-grow  px-5 md:px-20 justify-start py-12 "
           style={{ maxWidth: "75ch" }}
@@ -65,20 +65,20 @@ export default () => {
             What I did
           </span>
           <span className="pb-3">
-            Authored educational content. Planned features and aided in the
+            Authored educational content and planned features and aided in the
             platform development.
           </span>
           <span className="text-2xl lg:text-3xl font-semibold pb-5">
             What I learned
           </span>
           <span>
-            I learned academic computer science in order to author content to
-            help people in technical interviews. I also learned a lot of the
-            hassles of feature planning, wireframes, user stories,
-            prioritization that come with a cofounder/managerial position.
+            I learned how to teach computer science to help people succeed in
+            technical interviews and jobs. I also learned a lot of the
+            challenges of feature planning, wire-frames, user stories,
+            prioritization that come with a co-founder/managerial position.
           </span>
         </div>
-        <div className="flex md:flex-col justify-center md:mt-10 max-w-5xl ">
+        <div className="flex md:flex-col justify-center md:mt-10 max-w-2xl ">
           <div className="md:mt-5 ">
             <Post
               imageUrl="https://crunchskills.com/content/images/size/w1200/2020/05/denovNode-1.png"
@@ -107,7 +107,7 @@ export default () => {
           </div>
         </div>
       </div>
-      <div className=" flex flex-col lg:flex-row  h-full justify-between">
+      <div className=" flex flex-col lg:flex-row  h-full justify-center mb-12">
         <div
           className="flex flex-col items-start w-full flex-grow  px-5 md:px-20 justify-start py-12 "
           style={{ maxWidth: "75ch" }}
@@ -122,8 +122,8 @@ export default () => {
           </span>
           <span className="pb-3">
             I was a technical advisor on several cryptocurrency projects
-            including a major one (top100 by marketcap). My job description
-            slowly morphed into a developer as i fell in love with coding. My
+            including a major one (top 100 by market-cap). My job description
+            morphed into a developer as i fell in love with coding. My
             development achievements include creating a bot and giveaway
             management software.
           </span>
@@ -133,9 +133,10 @@ export default () => {
           <span>
             I learned tons of soft skills- community management, teamwork,
             project management, working in teams inside big development projects
-            thanks to mentorship from a techlead developer.
+            thanks to mentor-ship from a tech lead developer.
           </span>
         </div>
+        <div className="w-full max-w-3xl"></div>
       </div>
     </>
   );

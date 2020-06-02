@@ -43,7 +43,7 @@ export default () => {
                   <div></div>
                 </div>
               ) : (
-                "Uh.. Hi !👋"
+                "Hi !👋"
               )}
             </div>
           )}
@@ -89,14 +89,10 @@ export default () => {
                 </div>
               ) : (
                 <>
-                  You can checkout my{" "}
-                  <a href="/projects" className="underline">
-                    projects
-                  </a>{" "}
-                  and my{" "}
-                  <a href="/experience" className="underline">
-                    industry experience
-                  </a>{" "}
+                  You can checkout and play with my latest project -{" "}
+                  <a href="/visualizer" className="underline">
+                    a algorithm visualizer
+                  </a>
                 </>
               )}
             </div>
@@ -131,7 +127,7 @@ export default () => {
               imageUrl="https://crunchskills.com/content/images/size/w1200/2020/04/merge-sort-3.png"
               text=" Merge sort is one of the most beautiful and simplest algorithms. Its very short and at the same time very powerful because of its O(n * log n) speed."
               title="Merge sort explained in 3 minutes. "
-              link="https://crunchskills.com/merge-sort-explained-in-3-minutes-get-ready-for-any-interview//"
+              link="https://crunchskills.com/merge-sort-explained-in-3-minutes-get-ready-for-any-interview/"
             />
           </div>
         </div>
