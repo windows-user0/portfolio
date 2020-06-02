@@ -176,7 +176,7 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
       },
     });
     setMousePressed(false);
-    dispatch({ type: "setBrush", brush: "wall" });
+    if (evt.clientX) dispatch({ type: "setBrush", brush: "wall" });
     dispatch({ type: "setBusy", value: false });
   }
 
@@ -723,7 +723,6 @@ function BoardControls() {
           onClick={() => {
             setCurrentMode("game of life");
             dispatch({ type: "setBrush", brush: "alive" });
-
             dispatch({ type: "completeClear" });
           }}
         >
