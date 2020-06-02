@@ -22,7 +22,8 @@ type Action =
   | { type: "changeBoard"; board: cellProps[][] }
   | { type: "setBrush"; brush: string }
   | { type: "setBusy"; value: boolean }
-  | { type: "killSignal"; kill: boolean };
+  | { type: "killSignal"; kill: boolean }
+  | { type: "completeClear" };
 
 type Dispatch = (action: Action) => void;
 type State = {
@@ -115,7 +116,6 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
         });
       }
     }
-    return false;
   };
 
   function enableScroll() {
@@ -147,10 +147,9 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
     dispatch({ type: "setBusy", value: true });
   }
   function handleDragEnd(evt: any) {
-    const y = evt.clientY;
-    const x = evt.clientX;
+    const x = evt.clientX || evt.changedTouches[0].clientX;
+    const y = evt.clientY || evt.changedTouches[0].clientY;
     const currentCoords = getCellAtCoords(board, y - offset.y, x - offset.x);
-
     if (!currentCoords) return;
 
     setCoords({ x: currentCoords.row, y: currentCoords.col });
@@ -191,10 +190,12 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onTouchStart={(evt) => {
+          handleDragStart(evt);
           disableScroll();
           return false;
         }}
         onTouchEnd={(evt) => {
+          handleDragEnd(evt);
           enableScroll();
           return false;
         }}
@@ -300,12 +301,16 @@ async function gameOfLifeTick(board: cellProps[][], dispatch: Dispatch) {
     }
   }
   dispatches.forEach((dispatch) => dispatch());
+  await sleep(0);
 }
 
 function boardReducer(state: State, action: Action) {
   switch (action.type) {
     case "clear": {
       return { ...state, board: generateNewBoard(COL, ROWS) };
+    }
+    case "completeClear": {
+      return { ...state, board: generateNewCleanBoard(COL, ROWS) };
     }
     case "killSignal": {
       return { ...state, killSignal: action.kill };
@@ -404,6 +409,19 @@ function generateNewBoard(width: number, height: number): cellProps[][] {
       else if (i === height - 2 && k === width - 2)
         row.push({ ...currentCell, isEnd: true });
       else row.push(currentCell);
+    }
+    board.push(row);
+  }
+  return board;
+}
+function generateNewCleanBoard(width: number, height: number): cellProps[][] {
+  let board = [];
+
+  for (let i = 0; i < height; i++) {
+    let row = [];
+    for (let k = 0; k < width; k++) {
+      let currentCell = { ...cell, row: i, col: k };
+      row.push(currentCell);
     }
     board.push(row);
   }
@@ -631,6 +649,7 @@ function BoardControls() {
       {currentMode === "shortest path" && (
         <>
           <button
+            className="p-2 bg-orange-900 hover:bg-orange-700   m-2 rounded text-orange-100"
             onClick={() => {
               dijkstra(board, dispatch, setShowNewButton);
             }}
@@ -638,6 +657,7 @@ function BoardControls() {
             Find shortest Path
           </button>
           <button
+            className="p-2 bg-yellow-900 m-2 hover:bg-yellow-700 rounded text-yellow-100"
             onClick={async () => {
               makePrimsMaze(generateNewBoard(COL, ROWS), dispatch);
             }}
@@ -648,6 +668,7 @@ function BoardControls() {
       )}
       {showNewButton && (
         <button
+          className="p-2 bg-blue-900 m-2 hover:bg-blue-700 rounded text-blue-100"
           onClick={() => {
             dispatch({ type: "clear" });
             setShowNewButton(false);
@@ -656,17 +677,18 @@ function BoardControls() {
           New
         </button>
       )}
-
       {currentMode === "game of life" && (
         <>
           <button
+            className="m-2 rounded p-2 bg-yellow-900 text-yellow-100 hover:bg-yellow-700"
             onClick={() => {
               setGameOfLifeRunning(!gameOfLifeRunning);
             }}
           >
-            {gameOfLifeRunning ? "Stop" : "Auto"}
+            Toggle Auto
           </button>
           <button
+            className="m-2 p-2 rounded bg-purple-900 text-purple-100 hover:bg-purple-700"
             onClick={() => {
               gameOfLifeTick(board, dispatch);
             }}
@@ -674,13 +696,39 @@ function BoardControls() {
             Step
           </button>
           <button
+            className="p-2 bg-blue-900 m-2 hover:bg-blue-700 rounded text-blue-100"
             onClick={() => {
-              dispatch({ type: "setBrush", brush: "alive" });
+              dispatch({ type: "completeClear" });
             }}
           >
-            Brush alive cells
+            New
           </button>
         </>
+      )}
+      {currentMode === "game of life" ? (
+        <button
+          className="p-2 bg-yellow-900 m-2 hover:bg-yellow-700 rounded text-yellow-100"
+          onClick={() => {
+            setCurrentMode("shortest path");
+            setGameOfLifeRunning(false);
+            dispatch({ type: "clear" });
+            dispatch({ type: "setBrush", brush: "wall" });
+          }}
+        >
+          Shortest Path
+        </button>
+      ) : (
+        <button
+          className="p-2 bg-green-900 m-2 hover:bg-green-700 rounded text-green-100"
+          onClick={() => {
+            setCurrentMode("game of life");
+            dispatch({ type: "setBrush", brush: "alive" });
+
+            dispatch({ type: "completeClear" });
+          }}
+        >
+          Game Of Life
+        </button>
       )}
     </div>
   );
