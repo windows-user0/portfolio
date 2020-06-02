@@ -3,7 +3,6 @@ import GridCell from "../components/GridCell";
 import { useInterval } from "../hooks/useInterval";
 let ROWS: number = 0;
 let COL: number = 0;
-console.log(window);
 function resizeBoard() {
   ROWS = Math.round((window.innerHeight * 0.7) / 32);
   COL = Math.round((window.innerWidth * 0.8) / 32);
@@ -56,7 +55,9 @@ function getCellAtCoords(
 
   return { col: col, row: row };
 }
-
+function preventDefault(e: Event) {
+  e.preventDefault();
+}
 function BrowserEventSetup({ children }: BoardProviderProps) {
   const [mousePressed, setMousePressed] = React.useState(false);
 
@@ -114,7 +115,18 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
         });
       }
     }
+    return false;
   };
+
+  function enableScroll() {
+    document.body.removeEventListener("touchmove", preventDefault);
+  }
+  function disableScroll() {
+    document.body.addEventListener("touchmove", preventDefault, {
+      passive: false,
+    });
+  }
+
   function handleDragStart(evt: React.SyntheticEvent) {
     const target = (evt.target as HTMLTextAreaElement).id
       .split("-")[1]
@@ -178,6 +190,14 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
         onClick={(evt) => (busy ? null : func(evt))}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
+        onTouchStart={(evt) => {
+          disableScroll();
+          return false;
+        }}
+        onTouchEnd={(evt) => {
+          enableScroll();
+          return false;
+        }}
         onDragCapture={(evt) => {
           const x = evt.clientX - offset.x;
           const y = evt.clientY - offset.y;
