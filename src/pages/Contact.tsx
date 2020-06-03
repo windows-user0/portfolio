@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as firebase from "firebase/app";
+import "firebase/database";
 var firebaseConfig = {
   apiKey: "AIzaSyCH7DK-nNzhNxLra0tSQIqYoDe4Le-GhlM",
   authDomain: "portfolio-5671f.firebaseapp.com",
@@ -48,7 +49,7 @@ export default () => {
               Your message is on its way to me
             </span>
             <img
-              className="mt-10"
+              className="mt-10 object-scale-down"
               src="/success-hedgehog.png"
               alt="Success hedgehog meme"
             />
