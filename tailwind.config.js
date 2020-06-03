@@ -1,10 +1,14 @@
-// tailwind.config.js
 module.exports = {
+<<<<<<< HEAD
   purge: {
     // enabled: true,
     content: ["./src/**/*.html", "./src/**/*.tsx"],
+=======
+  purge: [],
+  theme: {
+    extend: {},
+>>>>>>> parent of a3fbdef... Cleanup 2- packages and css
   },
-  theme: {},
   variants: {},
   plugins: [],
-};
+}
