@@ -28,7 +28,7 @@ export default () => {
           <span className=" underlined font-bold underline pb-2 ">
             Check on windows-user0.com/visualizer
           </span>
-          <img src="Visualizer.png" />
+          <img src="Visualizer.png" alt="Screenshot of visualizer" />
         </a>
       </div>
 
@@ -52,7 +52,11 @@ export default () => {
           <span className=" underlined font-bold underline pb-2 text-lg">
             Check on virussignal.com
           </span>
-          <img className="rounded" src="https://virussignal.com/OGImage.png" />
+          <img
+            className="rounded"
+            src="https://virussignal.com/OGImage.png"
+            alt="Screenshot of virussignal page"
+          />
           Created to help the fight with outbreaks and pandemics. Open-source
           universal signs for immunocompromised, possibly contagious and
           recovered.

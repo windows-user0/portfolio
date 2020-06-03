@@ -64,7 +64,6 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
 
   const { board, brush, busy } = useBoardState();
   const dispatch = useBoardDispatch();
-  const [coords, setCoords] = React.useState({ x: 0, y: 0 });
 
   React.useEffect(() => {
     document.addEventListener("mousedown", () => setMousePressed(true));
@@ -90,7 +89,7 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
       document.removeEventListener("touchstart", () => setMousePressed(true));
       document.removeEventListener("touchend", () => setMousePressed(false));
     };
-  }, []);
+  });
   const [offset, setOffset] = React.useState({ x: 0, y: 0 });
   const [draggedCell, setDraggedCell] = React.useState("");
   const func = (event: any) => {
@@ -101,8 +100,6 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
       const currentCoords = getCellAtCoords(board, y - offset.y, x - offset.x);
 
       if (!currentCoords) return;
-
-      setCoords({ x: currentCoords.row, y: currentCoords.col });
 
       const currentCell = board[currentCoords.row][currentCoords.col];
 
@@ -151,8 +148,6 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
     const y = evt.clientY || evt.changedTouches[0].clientY;
     const currentCoords = getCellAtCoords(board, y - offset.y, x - offset.x);
     if (!currentCoords) return;
-
-    setCoords({ x: currentCoords.row, y: currentCoords.col });
 
     const currentCell = board[currentCoords.row][currentCoords.col];
 

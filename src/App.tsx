@@ -55,7 +55,12 @@ function App() {
       <footer className="flex-grow  flex justify-end">
         <div className="bg-gray-800 w-full self-end flex flex-row justify-between py-5 px-2">
           <div className="text-gray-600 text-sm">© 2020 windows-user0</div>
-          <div className="text-gray-600 text-sm">You're great❤️</div>
+          <div className="text-gray-600 text-sm">
+            You're great
+            <span aria-label="heart emoji" role="img">
+              ❤️
+            </span>
+          </div>
         </div>
       </footer>
     </div>

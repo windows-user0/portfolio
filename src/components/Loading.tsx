@@ -9,7 +9,7 @@ export default () => {
 
   useEffect(() => {
     setTimeout(incrementDot, 200);
-  }, [incrementDot]);
+  });
 
   return (
     <div className="w-full h-full flex justify-center text-4xl font-bold items-center">
