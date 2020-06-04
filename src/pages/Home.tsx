@@ -132,7 +132,7 @@ export default () => {
           </div>
         </div>
         <a
-          className="pt-2 underline "
+          className="pt-2 underline pb-10"
           href="https://crunchskills.com/author/alex/"
         >
           See others...

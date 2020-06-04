@@ -7,7 +7,7 @@ import Visualizer from "./pages/Visualizer";
 import Contact from "./pages/Contact";
 import Projects from "./pages/Projects";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
+import Loading from "./components/Loading";
 const Experience = React.lazy(() => import("./pages/Experience"));
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
             <Projects />
           </Route>
           <Route path="/experience">
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loading />}>
               <Experience />
             </Suspense>
           </Route>

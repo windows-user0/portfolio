@@ -177,7 +177,7 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
 
   const [previousCell, setPreviousCell] = React.useState(board[0][0]);
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center pb-20">
       <div
         onTouchMove={(evt) => (busy ? null : func(evt))}
         onMouseMove={(evt) => (busy ? null : func(evt))}
@@ -638,92 +638,114 @@ function BoardControls() {
   );
 
   const dispatch = useBoardDispatch();
-
-  return (
-    <div className=" flex flex-row justify-center ">
-      {currentMode === "shortest path" && (
-        <>
+  const ModeSwitcher = () => {
+    switch (currentMode) {
+      case "shortest path":
+        return (
           <button
-            className="p-2 bg-orange-900 hover:bg-orange-700   m-2 rounded text-orange-100"
+            className="p-2 bg-green-900 m-2 hover:bg-green-700 rounded text-green-100"
             onClick={() => {
-              dijkstra(board, dispatch, setShowNewButton);
+              setCurrentMode("game of life");
+              dispatch({ type: "setBrush", brush: "alive" });
+              dispatch({ type: "completeClear" });
             }}
           >
-            Find shortest Path
+            Switch to Game Of Life
           </button>
+        );
+      case "game of life":
+        return (
           <button
             className="p-2 bg-yellow-900 m-2 hover:bg-yellow-700 rounded text-yellow-100"
-            onClick={async () => {
-              makePrimsMaze(generateNewBoard(COL, ROWS), dispatch);
-            }}
-          >
-            Maze
-          </button>
-        </>
-      )}
-      {showNewButton && (
-        <button
-          className="p-2 bg-blue-900 m-2 hover:bg-blue-700 rounded text-blue-100"
-          onClick={() => {
-            dispatch({ type: "clear" });
-            setShowNewButton(false);
-          }}
-        >
-          New
-        </button>
-      )}
-      {currentMode === "game of life" && (
-        <>
-          <button
-            className="m-2 rounded p-2 bg-yellow-900 text-yellow-100 hover:bg-yellow-700"
             onClick={() => {
-              setGameOfLifeRunning(!gameOfLifeRunning);
+              setCurrentMode("shortest path");
+              setGameOfLifeRunning(false);
+              dispatch({ type: "clear" });
+              dispatch({ type: "setBrush", brush: "wall" });
             }}
           >
-            Toggle Auto
+            Switch to Game Of Life
           </button>
-          <button
-            className="m-2 p-2 rounded bg-purple-900 text-purple-100 hover:bg-purple-700"
-            onClick={() => {
-              gameOfLifeTick(board, dispatch);
-            }}
-          >
-            Step
-          </button>
+        );
+      default:
+        return <div>Error mode not set</div>;
+    }
+  };
+  const ShortestPathControlls = () => {
+    return (
+      <div className="flex flex-row justify-center">
+        {showNewButton ? (
           <button
             className="p-2 bg-blue-900 m-2 hover:bg-blue-700 rounded text-blue-100"
             onClick={() => {
-              dispatch({ type: "completeClear" });
+              dispatch({ type: "clear" });
+              setShowNewButton(false);
             }}
           >
             New
           </button>
-        </>
-      )}
-      {currentMode === "game of life" ? (
+        ) : (
+          <>
+            <button
+              className="p-2 bg-orange-900 hover:bg-orange-700   m-2 rounded text-orange-100"
+              onClick={() => {
+                dijkstra(board, dispatch, setShowNewButton);
+              }}
+            >
+              Find shortest path
+            </button>
+          </>
+        )}
         <button
           className="p-2 bg-yellow-900 m-2 hover:bg-yellow-700 rounded text-yellow-100"
           onClick={() => {
-            setCurrentMode("shortest path");
-            setGameOfLifeRunning(false);
-            dispatch({ type: "clear" });
-            dispatch({ type: "setBrush", brush: "wall" });
+            setShowNewButton(false);
+            makePrimsMaze(generateNewBoard(COL, ROWS), dispatch);
           }}
         >
-          Shortest Path
+          Maze
         </button>
-      ) : (
+      </div>
+    );
+  };
+  const GameOfLifeControlls = () => {
+    return (
+      <div className="flex flex-row justify-center">
         <button
-          className="p-2 bg-green-900 m-2 hover:bg-green-700 rounded text-green-100"
+          className="m-2 rounded p-2 bg-yellow-900 text-yellow-100 hover:bg-yellow-700"
           onClick={() => {
-            setCurrentMode("game of life");
-            dispatch({ type: "setBrush", brush: "alive" });
+            setGameOfLifeRunning(!gameOfLifeRunning);
+          }}
+        >
+          Auto
+        </button>
+        <button
+          className="m-2 p-2 rounded bg-purple-900 text-purple-100 hover:bg-purple-700"
+          onClick={() => {
+            gameOfLifeTick(board, dispatch);
+          }}
+        >
+          Step
+        </button>
+        <button
+          className="p-2 bg-blue-900 m-2 hover:bg-blue-700 rounded text-blue-100"
+          onClick={() => {
             dispatch({ type: "completeClear" });
           }}
         >
-          Game Of Life
+          New
         </button>
-      )}
+      </div>
+    );
+  };
+  return (
+    <div className=" flex flex-col justify-center ">
+      <div className="flex justify-center ">
+        <ModeSwitcher />
+      </div>
+
+      {currentMode === "shortest path" && <ShortestPathControlls />}
+      {currentMode === "game of life" && <GameOfLifeControlls />}
     </div>
   );
 }
