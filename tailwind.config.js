@@ -1,9 +1,6 @@
 // tailwind.config.js
 module.exports = {
-  purge: {
-    enabled: true,
-    content: ["./src/**/*.html", "./src/**/*.tsx"],
-  },
+  purge: ["./src/**/*.html", "./src/**/*.tsx"],
 
   theme: {},
 

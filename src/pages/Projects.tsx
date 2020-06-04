@@ -28,7 +28,11 @@ export default () => {
           <span className=" underlined font-bold underline pb-2 ">
             Check on windows-user0.com/visualizer
           </span>
-          <img src="Visualizer.png" alt="Screenshot of visualizer" />
+          <img
+            src="Visualizer.png"
+            className=" w-full h-full"
+            alt="Screenshot of visualizer"
+          />
         </a>
       </div>
 
@@ -53,7 +57,7 @@ export default () => {
             Check on virussignal.com
           </span>
           <img
-            className="rounded"
+            className="rounded w-full h-full"
             src="https://virussignal.com/OGImage.png"
             alt="Screenshot of virussignal page"
           />
