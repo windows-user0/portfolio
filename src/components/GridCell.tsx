@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { useBoardDispatch } from "../pages/Visualizer";
+import { useBoardDispatch } from "../Contexts/boardContexts";
 import "../App.css";
 const Cell = (props: any) => {
   const {

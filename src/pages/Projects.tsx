@@ -42,9 +42,8 @@ export default () => {
             <ExperienceBadge text="react" color="blue" />
             <ExperienceBadge text="nextjs" color="purple" />
             <ExperienceBadge text="Javascript" color="yellow" />
-          </ExperienceTitle>{" "}
+          </ExperienceTitle>
           <p className="pt-10">
-            {" "}
             A set of open source symbols and guidelines to help in social
             distancing during outbreaks and pandemics. Written in nextjs.
           </p>

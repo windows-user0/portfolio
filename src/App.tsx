@@ -8,26 +8,14 @@ import Contact from "./pages/Contact";
 import Projects from "./pages/Projects";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Loading from "./components/Loading";
+import Navbar from "./components/Navbar";
 const Experience = React.lazy(() => import("./pages/Experience"));
 
 function App() {
   return (
     <div className="flex flex-col  " style={{ minHeight: "100vh" }}>
       <Router>
-        <nav className="flex flex-row  mt-10 mb-5 font-bold justify-center">
-          <Link className="px-5 hover:underline" to="/">
-            Home
-          </Link>
-          <Link className="px-5 hover:underline" to="/experience">
-            Experience
-          </Link>
-          <Link className="px-5 hover:underline" to="/projects">
-            Projects
-          </Link>
-          <Link className="px-5  hover:underline" to="/contact">
-            Contact
-          </Link>
-        </nav>
+        <Navbar />
         <Switch>
           <Route path="/" exact>
             <Home />

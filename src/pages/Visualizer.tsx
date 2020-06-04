@@ -1,44 +1,16 @@
 import * as React from "react";
 import GridCell from "../components/GridCell";
 import { useInterval } from "../hooks/useInterval";
-let ROWS: number = 0;
-let COL: number = 0;
-function resizeBoard() {
-  ROWS = Math.round((window.innerHeight * 0.7) / 32);
-  COL = Math.round((window.innerWidth * 0.8) / 32);
-  if (ROWS % 2 === 0) ROWS++;
-  if (COL % 2 === 0) COL++;
-}
-resizeBoard();
-
-type Action =
-  | { type: "clear" }
-  | {
-      type: "changeCell";
-      payload: { row: number; col: number; value: {} };
-    }
-  | { type: "mouseDown" }
-  | { type: "mouseUp" }
-  | { type: "changeBoard"; board: cellProps[][] }
-  | { type: "setBrush"; brush: string }
-  | { type: "setBusy"; value: boolean }
-  | { type: "killSignal"; kill: boolean }
-  | { type: "completeClear" };
-
-type Dispatch = (action: Action) => void;
-type State = {
-  board: cellProps[][];
-
-  busy: boolean;
-  brush: string;
-  killSignal: boolean;
-};
-type BoardProviderProps = { children: React.ReactNode };
-const BoardStateContext = React.createContext<State | undefined>(undefined);
-const BoardDispatchContext = React.createContext<Dispatch | undefined>(
-  undefined
-);
-
+import {
+  BoardProvider,
+  useBoardDispatch,
+  useBoardState,
+} from "../Contexts/boardContexts";
+import { cellProps } from "../Types/boardComponentTypes";
+import { Dispatch } from "../Types/boardReducerTypes";
+import { BrowserEventSetupProps } from "../Types/boardReducerTypes";
+import { generatePathNewBoard, getBoardSize } from "../helpers/board";
+import Loading from "../components/Loading";
 function getCellAtCoords(
   board: cellProps[][],
   y: number,
@@ -46,24 +18,33 @@ function getCellAtCoords(
 ): { col: number; row: number } | undefined {
   const width = board[0][0].width;
   if (!width) return undefined;
-
   const row = Math.floor(y / width);
-
   const col = Math.floor(x / width);
-
   if (!board[row]) return undefined;
   if (!board[row][col]) return undefined;
-
   return { col: col, row: row };
 }
 function preventDefault(e: Event) {
   e.preventDefault();
 }
-function BrowserEventSetup({ children }: BoardProviderProps) {
+function enableScroll() {
+  document.body.removeEventListener("touchmove", preventDefault);
+}
+function disableScroll() {
+  document.body.addEventListener("touchmove", preventDefault, {
+    passive: false,
+  });
+}
+
+function BrowserEventSetup({ children }: BrowserEventSetupProps) {
   const [mousePressed, setMousePressed] = React.useState(false);
 
   const { board, brush, busy } = useBoardState();
   const dispatch = useBoardDispatch();
+
+  const changeBoard = () => {
+    dispatch({ type: "clear" });
+  };
 
   React.useEffect(() => {
     document.addEventListener("mousedown", () => setMousePressed(true));
@@ -71,27 +52,22 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
     document.addEventListener("touchstart", () => {
       setMousePressed(true);
     });
-    window.addEventListener("resize", () => {
-      resizeBoard();
-
-      setOffset({ x: 0, y: 0 });
-      dispatch({ type: "changeBoard", board: generateNewBoard(COL, ROWS) });
-    });
+    window.addEventListener("resize", changeBoard);
     document.addEventListener("touchend", () => {
       setMousePressed(false);
     });
     return function cleanup() {
-      window.removeEventListener("resize", () => {
-        setOffset({ x: 0, y: 0 });
-      });
+      window.removeEventListener("resize", changeBoard);
       document.removeEventListener("mousedown", () => setMousePressed(true));
       document.removeEventListener("mouseup", () => setMousePressed(false));
       document.removeEventListener("touchstart", () => setMousePressed(true));
       document.removeEventListener("touchend", () => setMousePressed(false));
     };
   });
+
   const [offset, setOffset] = React.useState({ x: 0, y: 0 });
   const [draggedCell, setDraggedCell] = React.useState("");
+
   const func = (event: any) => {
     if (mousePressed || event.type === "click") {
       const x = event.clientX || event.touches[0].clientX;
@@ -114,15 +90,6 @@ function BrowserEventSetup({ children }: BoardProviderProps) {
       }
     }
   };
-
-  function enableScroll() {
-    document.body.removeEventListener("touchmove", preventDefault);
-  }
-  function disableScroll() {
-    document.body.addEventListener("touchmove", preventDefault, {
-      passive: false,
-    });
-  }
 
   function handleDragStart(evt: React.SyntheticEvent) {
     const target = (evt.target as HTMLTextAreaElement).id
@@ -299,43 +266,6 @@ async function gameOfLifeTick(board: cellProps[][], dispatch: Dispatch) {
   await sleep(0);
 }
 
-function boardReducer(state: State, action: Action) {
-  switch (action.type) {
-    case "clear": {
-      return { ...state, board: generateNewBoard(COL, ROWS) };
-    }
-    case "completeClear": {
-      return { ...state, board: generateNewCleanBoard(COL, ROWS) };
-    }
-    case "killSignal": {
-      return { ...state, killSignal: action.kill };
-    }
-    case "changeBoard": {
-      return { ...state, board: action.board };
-    }
-    case "setBrush": {
-      return { ...state, brush: action.brush };
-    }
-    case "setBusy": {
-      return { ...state, busy: action.value };
-    }
-    case "changeCell": {
-      const payload = action.payload;
-
-      if (state.board[payload.row] !== undefined)
-        state.board[payload.row][payload.col] = {
-          ...state.board[payload.row][payload.col],
-          ...payload.value,
-        };
-      return { ...state };
-    }
-
-    default: {
-      throw new Error(`Unhandled action type: ${action}`);
-    }
-  }
-}
-
 function findNeighbours(
   row: number,
   col: number,
@@ -367,94 +297,8 @@ function findNeighboursAround(
   return neighbours;
 }
 
-interface cellProps {
-  visited?: boolean;
-  row: number;
-  col: number;
-  distance?: number;
-  previous?: cellProps;
-  isStart?: boolean;
-  isEnd?: boolean;
-  yCoord?: number;
-  xCoord?: number;
-  width?: number;
-  wall?: boolean;
-  alive?: boolean;
-  shortestPath?: boolean;
-  movementShadow?: boolean;
-  inMaze?: boolean;
-}
-const cell = {
-  visited: false,
-  wall: false,
-  isMaze: false,
-  movementShadow: false,
-  isStart: false,
-  isEnd: false,
-  alive: false,
-};
-function generateNewBoard(width: number, height: number): cellProps[][] {
-  let board = [];
-
-  for (let i = 0; i < height; i++) {
-    let row = [];
-    for (let k = 0; k < width; k++) {
-      let currentCell = { ...cell, row: i, col: k };
-      if (i === 1 && k === 1) row.push({ ...currentCell, isStart: true });
-      else if (i === height - 2 && k === width - 2)
-        row.push({ ...currentCell, isEnd: true });
-      else row.push(currentCell);
-    }
-    board.push(row);
-  }
-  return board;
-}
-function generateNewCleanBoard(width: number, height: number): cellProps[][] {
-  let board = [];
-
-  for (let i = 0; i < height; i++) {
-    let row = [];
-    for (let k = 0; k < width; k++) {
-      let currentCell = { ...cell, row: i, col: k };
-      row.push(currentCell);
-    }
-    board.push(row);
-  }
-  return board;
-}
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
-const initialState = {
-  board: generateNewBoard(COL, ROWS),
-  killSignal: false,
-  busy: false,
-  brush: "wall",
-};
-function BoardProvider({ children }: BoardProviderProps) {
-  const [state, dispatch] = React.useReducer(boardReducer, initialState);
-
-  return (
-    <BoardStateContext.Provider value={state}>
-      <BoardDispatchContext.Provider value={dispatch}>
-        {children}
-      </BoardDispatchContext.Provider>
-    </BoardStateContext.Provider>
-  );
-}
-function useBoardState() {
-  const context = React.useContext(BoardStateContext);
-  if (context === undefined) {
-    throw new Error("useBoardState must be used within a BoardProvider");
-  }
-  return context;
-}
-function useBoardDispatch() {
-  const context = React.useContext(BoardDispatchContext);
-  if (context === undefined) {
-    throw new Error("useBoardDispatch must be used within a BoardProvider");
-  }
-  return context;
 }
 
 function BoardDisplay() {
@@ -567,6 +411,7 @@ async function dijkstra(
   }
 }
 
+const { ROWS, COL } = getBoardSize();
 async function makePrimsMaze(board: cellProps[][], dispatch: Dispatch) {
   const notVisited: cellProps[] = [];
 
@@ -631,7 +476,6 @@ function BoardControls() {
 
   useInterval(
     () => {
-      // Your custom logic here
       gameOfLifeTick(board, dispatch);
     },
     gameOfLifeRunning ? 500 : null
@@ -700,7 +544,7 @@ function BoardControls() {
           className="p-2 bg-yellow-900 m-2 hover:bg-yellow-700 rounded text-yellow-100"
           onClick={() => {
             setShowNewButton(false);
-            makePrimsMaze(generateNewBoard(COL, ROWS), dispatch);
+            makePrimsMaze(generatePathNewBoard(), dispatch);
           }}
         >
           Maze
@@ -708,7 +552,7 @@ function BoardControls() {
       </div>
     );
   };
-  const GameOfLifeControlls = () => {
+  const GameOfLifeControls = () => {
     return (
       <div className="flex flex-row justify-center">
         <button
@@ -743,9 +587,8 @@ function BoardControls() {
       <div className="flex justify-center ">
         <ModeSwitcher />
       </div>
-
       {currentMode === "shortest path" && <ShortestPathControlls />}
-      {currentMode === "game of life" && <GameOfLifeControlls />}
+      {currentMode === "game of life" && <GameOfLifeControls />}
     </div>
   );
 }
@@ -755,11 +598,10 @@ export default function App() {
     <BoardProvider>
       <BoardControls />
       <BrowserEventSetup>
-        <React.Suspense fallback="LOADING">
+        <React.Suspense fallback={<Loading />}>
           <BoardDisplay />
         </React.Suspense>
       </BrowserEventSetup>
     </BoardProvider>
   );
 }
-export { useBoardDispatch, useBoardState };
