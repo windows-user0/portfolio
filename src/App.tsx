@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Loading from "./components/Loading";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import PasswordEntropy from "./pages/PasswordEntropy";
 const Experience = React.lazy(() => import("./pages/Experience"));
 
 function App() {
@@ -30,6 +31,9 @@ function App() {
             </Route>
             <Route path="/projects">
               <Projects />
+            </Route>
+            <Route path="/password-entropy">
+              <PasswordEntropy />
             </Route>
             <Route path="/experience">
               <Suspense fallback={<Loading />}>
