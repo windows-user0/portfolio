@@ -101,7 +101,7 @@ export default () => {
       </div>
       <div className="w-3/4 pt-20 flex flex-col">
         <div className="font-extrabold text-3xl md:text-3xl ">
-          <span className="border-b">My articles</span>
+          <span className="border-b pr-5">My articles</span>
         </div>
         <div className="flex flex-col md:flex-row justify-start mt-5 md:mt-10 ">
           <div className="md:w-1/2 max-w-xl">

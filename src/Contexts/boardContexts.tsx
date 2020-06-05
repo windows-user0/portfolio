@@ -5,11 +5,7 @@ import {
   BoardProviderProps,
   Action,
 } from "../Types/boardReducerTypes";
-import {
-  generateNewCleanBoard,
-  generatePathNewBoard,
-  getBoardSize,
-} from "../helpers/board";
+import { generateNewCleanBoard, generatePathNewBoard } from "../helpers/board";
 const BoardStateContext = React.createContext<State | undefined>(undefined);
 const BoardDispatchContext = React.createContext<Dispatch | undefined>(
   undefined

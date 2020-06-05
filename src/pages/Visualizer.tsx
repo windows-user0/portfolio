@@ -9,21 +9,17 @@ import {
 import { cellProps } from "../Types/boardComponentTypes";
 import { Dispatch } from "../Types/boardReducerTypes";
 import { BrowserEventSetupProps } from "../Types/boardReducerTypes";
-import { generatePathNewBoard, getBoardSize } from "../helpers/board";
+import {
+  generatePathNewBoard,
+  getBoardSize,
+  getCellAtCoords,
+  find4NeighboursCross,
+  find9NeighboursAround,
+} from "../helpers/board";
+import { sleep } from "../helpers/sleep";
 import Loading from "../components/Loading";
-function getCellAtCoords(
-  board: cellProps[][],
-  y: number,
-  x: number
-): { col: number; row: number } | undefined {
-  const width = board[0][0].width;
-  if (!width) return undefined;
-  const row = Math.floor(y / width);
-  const col = Math.floor(x / width);
-  if (!board[row]) return undefined;
-  if (!board[row][col]) return undefined;
-  return { col: col, row: row };
-}
+import { useDijkstra } from "../Algorithms/dijkstra";
+import { makePrimsMaze } from "../Algorithms/primsMaze";
 function preventDefault(e: Event) {
   e.preventDefault();
 }
@@ -218,7 +214,7 @@ async function gameOfLifeTick(board: cellProps[][], dispatch: Dispatch) {
 
   for (const row of board) {
     for (const cell of row) {
-      const aliveNeighbours = findNeighboursAround(
+      const aliveNeighbours = find9NeighboursAround(
         cell.row,
         cell.col,
         board
@@ -266,54 +262,19 @@ async function gameOfLifeTick(board: cellProps[][], dispatch: Dispatch) {
   await sleep(0);
 }
 
-function findNeighbours(
-  row: number,
-  col: number,
-  board: cellProps[][]
-): cellProps[] {
-  let neighbours = [];
-
-  if (row - 1 >= 0) neighbours.push(board[row - 1][col]);
-  if (board[row + 1]) neighbours.push(board[row + 1][col]);
-  if (col - 1 >= 0) neighbours.push(board[row][col - 1]);
-  if (board[row]) neighbours.push(board[row][col + 1]);
-  return neighbours;
-}
-function findNeighboursAround(
-  row: number,
-  col: number,
-  board: cellProps[][]
-): cellProps[] {
-  let neighbours = [];
-
-  for (let i = row - 1; i < row + 2; i++) {
-    if (board[i]) {
-      for (let j = col - 1; j < col + 2; j++) {
-        if (i === row && j === col) continue;
-        if (board[i][j]) neighbours.push(board[i][j]);
-      }
-    }
-  }
-  return neighbours;
-}
-
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 function BoardDisplay() {
   const { board } = useBoardState();
 
   return (
     <>
       {board.map((row, rowIndex) => (
-        <div className="flex flex-row flex-shrink" key={`Board-${rowIndex}`}>
+        <div className="flex flex-row " key={`Board-${rowIndex}`}>
           {row.map((cell, cellIndex) => (
             <GridCell
               key={`Board-${rowIndex}/${cellIndex}`}
               visited={board[rowIndex][cellIndex].visited}
               id={`Board-${rowIndex}/${cellIndex}`}
-              findNeighbours={findNeighbours}
+              findNeighbours={find4NeighboursCross}
               {...board[rowIndex][cellIndex]}
             />
           ))}
@@ -323,154 +284,9 @@ function BoardDisplay() {
   );
 }
 
-async function dijkstra(
-  board: cellProps[][],
-  dispatch: Dispatch,
-  setFinished: any
-) {
-  let start: cellProps | undefined = undefined;
-  for (const row of board) {
-    if (start) break;
-    for (const cell of row) {
-      if (cell.isStart) {
-        start = { ...cell, distance: 0 };
-        break;
-      }
-    }
-  }
-  if (!start) throw new Error("No Start selected");
-
-  const visitedInOrder = [];
-
-  const notVisitedCells: cellProps[] = [];
-  notVisitedCells.push(start);
-  let endCell: cellProps | undefined = undefined;
-
-  let dijkstraStepps: any;
-
-  dijkstraStepps = setInterval(() => dijkstraStep(), 20);
-
-  async function dijkstraStep() {
-    const closestCell = notVisitedCells.shift();
-
-    if (!closestCell) {
-      clearInterval(dijkstraStepps);
-      setFinished(true);
-      return;
-    }
-    if (closestCell.wall) return;
-
-    visitedInOrder.push(closestCell);
-
-    if (closestCell.isEnd) {
-      endCell = closestCell;
-      const nodesInShortestPathOrder = [];
-      let currentNode = endCell;
-      while (currentNode.previous) {
-        nodesInShortestPathOrder.unshift(currentNode);
-        currentNode = currentNode.previous;
-      }
-      nodesInShortestPathOrder.forEach(async (node) => {
-        if (!node.isEnd && !node.isStart) {
-          dispatch({
-            type: "changeCell",
-            payload: {
-              row: node.row,
-              col: node.col,
-              value: { shortestPath: true },
-            },
-          });
-          await sleep(0);
-        }
-      });
-      clearInterval(dijkstraStepps);
-      setFinished(true);
-      return;
-    }
-    const notVisitedNeighbours = findNeighbours(
-      closestCell.row,
-      closestCell.col,
-      board
-    ).filter((neighbour) => neighbour && !neighbour.visited);
-
-    if (notVisitedNeighbours === []) return;
-
-    notVisitedNeighbours.forEach((neighbour) => {
-      if (closestCell.distance !== undefined) {
-        neighbour.visited = true;
-        notVisitedCells.push({
-          ...neighbour,
-          distance: closestCell.distance + 1,
-          previous: closestCell,
-        });
-      }
-    });
-
-    await sleep(100);
-    dispatch({ type: "changeBoard", board: board });
-  }
-}
-
-const { ROWS, COL } = getBoardSize();
-async function makePrimsMaze(board: cellProps[][], dispatch: Dispatch) {
-  const notVisited: cellProps[] = [];
-
-  for (const row of board) {
-    for (const cell of row) {
-      if (cell.isStart) {
-        cell.inMaze = true;
-      } else {
-        if (cell.col % 2 === 0 || cell.row % 2 === 0) cell.wall = true;
-        else notVisited.push(cell);
-      }
-    }
-  }
-
-  notVisited.unshift(board[3][1]);
-  while (notVisited.length) {
-    const currentCell = notVisited.shift();
-
-    if (!currentCell) return;
-    let neighbours: cellProps[] = [];
-    if (currentCell.row + 3 <= ROWS)
-      neighbours.push(board[currentCell.row + 2][currentCell.col]);
-    if (currentCell.row - 2 >= 0)
-      neighbours.push(board[currentCell.row - 2][currentCell.col]);
-    if (currentCell.col - 2 >= 0)
-      neighbours.push(board[currentCell.row][currentCell.col - 2]);
-    if (currentCell.col + 3 <= COL)
-      neighbours.push(board[currentCell.row][currentCell.col + 2]);
-
-    const neighboursInMaze = neighbours.filter((neighbour) => neighbour.inMaze);
-
-    if (neighboursInMaze.length === 0) continue;
-    const numNeighboursInMaze = neighboursInMaze.length;
-    const randNeighbourInMazeIndex = Math.floor(
-      Math.random() * numNeighboursInMaze
-    );
-    const randNeighbourInMaze = neighboursInMaze[randNeighbourInMazeIndex];
-    const rowDifference = randNeighbourInMaze.row - currentCell.row;
-    const colDifference = randNeighbourInMaze.col - currentCell.col;
-    if (colDifference !== 0) {
-      if (colDifference > 0) {
-        board[currentCell.row][currentCell.col + 1].wall = false;
-      } else board[currentCell.row][currentCell.col - 1].wall = false;
-    }
-    if (rowDifference !== 0) {
-      if (rowDifference > 0) {
-        board[currentCell.row + 1][currentCell.col].wall = false;
-      } else board[currentCell.row - 1][currentCell.col].wall = false;
-    }
-    currentCell.inMaze = true;
-  }
-
-  dispatch({ type: "changeBoard", board: board });
-  await sleep(0);
-}
-
 function BoardControls() {
   const [gameOfLifeRunning, setGameOfLifeRunning] = React.useState(false);
-  const [showNewButton, setShowNewButton] = React.useState(false);
+  const [dijkstraFinished, setDijstraFinished] = React.useState(false);
   const { board } = useBoardState();
   const [currentMode, setCurrentMode] = React.useState("shortest path");
 
@@ -482,6 +298,14 @@ function BoardControls() {
   );
 
   const dispatch = useBoardDispatch();
+
+  React.useEffect(() => {
+    setDijkstraRunning(false);
+  }, [dijkstraFinished]);
+
+  const [dijkstraRunning, setDijkstraRunning] = React.useState<any>(false);
+  const dijstra = useDijkstra(dijkstraRunning, setDijstraFinished);
+
   const ModeSwitcher = () => {
     switch (currentMode) {
       case "shortest path":
@@ -518,12 +342,12 @@ function BoardControls() {
   const ShortestPathControlls = () => {
     return (
       <div className="flex flex-row justify-center">
-        {showNewButton ? (
+        {dijkstraFinished ? (
           <button
             className="p-2 bg-blue-900 m-2 hover:bg-blue-700 rounded text-blue-100"
             onClick={() => {
               dispatch({ type: "clear" });
-              setShowNewButton(false);
+              setDijstraFinished(false);
             }}
           >
             New
@@ -533,7 +357,7 @@ function BoardControls() {
             <button
               className="p-2 bg-orange-900 hover:bg-orange-700   m-2 rounded text-orange-100"
               onClick={() => {
-                dijkstra(board, dispatch, setShowNewButton);
+                setDijkstraRunning(!dijkstraRunning);
               }}
             >
               Find shortest path
@@ -543,7 +367,7 @@ function BoardControls() {
         <button
           className="p-2 bg-yellow-900 m-2 hover:bg-yellow-700 rounded text-yellow-100"
           onClick={() => {
-            setShowNewButton(false);
+            setDijstraFinished(false);
             makePrimsMaze(generatePathNewBoard(), dispatch);
           }}
         >

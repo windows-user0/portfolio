@@ -8,10 +8,7 @@ export default () => {
   return (
     <>
       <div className=" flex flex-col lg:flex-row  h-full justify-center mt-12 md:p-5">
-        <div
-          className="flex flex-col items-start w-full flex-grow px-5 md:px-20 justify-start  "
-          style={{ maxWidth: "75ch" }}
-        >
+        <div className="flex flex-col max-w-lg items-start w-full flex-grow px-5 md:px-20 justify-start  ">
           <ExperienceTitle text="Whotab">
             <ExperienceBadge text="html5" color="blue" />
             <ExperienceBadge text="next-js" color="purple" />
@@ -37,7 +34,7 @@ export default () => {
         </div>
         <div
           style={{ height: "80vh" }}
-          className="resp-container lg:w-full max-w-2xl  mt-10 md:mt-0 "
+          className="resp-container lg:w-full max-w-2xl  lg:ml-0 md:ml-10 mt-10 lg:mt-0 "
         >
           {/* Display loading until the iframe loads component loads */}
           {iframeLoaded ? null : <Loading />}
@@ -51,10 +48,7 @@ export default () => {
         </div>
       </div>
       <div className=" flex flex-col lg:flex-row  h-full justify-center">
-        <div
-          className="flex flex-col items-start w-full flex-grow  px-5 md:px-20 justify-start py-12 "
-          style={{ maxWidth: "75ch" }}
-        >
+        <div className="flex max-w-lg flex-col items-start w-full flex-grow  px-5 md:px-20 justify-start py-12 ">
           <ExperienceTitle text="Cruchskills">
             <ExperienceBadge text="Ghostjs" color="blue" />
             <ExperienceBadge text="React" color="yellow" />
@@ -78,7 +72,7 @@ export default () => {
             prioritization that come with a co-founder/managerial position.
           </span>
         </div>
-        <div className="flex md:flex-col justify-center md:mt-10 max-w-2xl ">
+        <div className="flex md:flex-col justify-center md:mt-10 max-w-2xl  lg:ml-0 md:ml-10">
           <div className="md:mt-5 ">
             <Post
               imageUrl="https://crunchskills.com/content/images/size/w1200/2020/05/denovNode-1.png"
@@ -108,10 +102,7 @@ export default () => {
         </div>
       </div>
       <div className=" flex flex-col lg:flex-row  h-full justify-center mb-12">
-        <div
-          className="flex flex-col items-start w-full flex-grow  px-5 md:px-20 justify-start py-12 "
-          style={{ maxWidth: "75ch" }}
-        >
+        <div className="flex flex-col max-w-lg items-start w-full flex-grow  px-5 md:px-20 justify-start py-12 ">
           <ExperienceTitle text="Cryptocurrencies ">
             <ExperienceBadge text="Nodejs" color="blue" />
             <ExperienceBadge text="Javascript" color="yellow" />
