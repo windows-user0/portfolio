@@ -5,7 +5,8 @@ export default () => {
   const location = useLocation().pathname;
 
   return (
-    <nav className="flex flex-row mt-2 md:mt-10 mb-5 justify-around">
+    <nav className="flex justify-center" >
+      <div className="flex flex-row mt-2 md:mt-10 mb-5 justify-around max-w-xl w-full">
       <Link
         className={`  ${
           location === "/" ? "font-bold cursor-default" : "hover:underline"
@@ -42,8 +43,9 @@ export default () => {
         }`}
         to="/contact"
       >
-        Contact
+          Contact
       </Link>
+      </div>
     </nav>
   );
 };
