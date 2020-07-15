@@ -1,7 +1,7 @@
 import * as React from "react";
 export default () => (
-    <footer className=" flex justify-end">
-        <div className="bg-gray-800 w-full self-end flex flex-row justify-between py-5 px-2">
+    <footer className=" flex justify-end ">
+        <div className="bg-gray-800 w-full self-end flex flex-row justify-between py-5 px-5">
             <div className="text-gray-200 text-sm">
                 You're great
                 <span aria-label="heart emoji" role="img">
@@ -13,7 +13,7 @@ export default () => (
                     className="flex flex-row hover:underline "
                     href="https://github.com/windows-user0"
                 >
-                    Github
+                    My Github
                     <svg
                         className="fill-current pl-1"
                         xmlns="http://www.w3.org/2000/svg"
