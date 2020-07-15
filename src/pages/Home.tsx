@@ -107,7 +107,7 @@ export default () => {
                     <span className="border-b-8 pr-5">My articles</span>
                 </div>
                 <div className="flex flex-col md:flex-row justify-between mt-5 md:mt-16 ">
-                    <div className="max-w-sm">
+                    <div className="w-1/3 max-w-xl">
                         <Post
                             imageUrl="https://crunchskills.com/content/images/size/w1200/2020/05/denovNode-1.png"
                             text=" Whats different between Deno and Node?Both Node and Deno were designed by
@@ -117,7 +117,7 @@ export default () => {
                             link="https://crunchskills.com/deno-vs-node/"
                         />
                     </div>
-                    <div className="max-w-sm">
+                    <div className="w-1/3 max-w-xl">
                         <Post
                             imageUrl="https://crunchskills.com/content/images/size/w1200/2020/05/preview.png"
                             text=" They come up in most if not all coding interviews, because they are essential to any performant software. You might know them by other higher level siblings names like dictionaries, maps or vectors."
@@ -125,7 +125,7 @@ export default () => {
                             link="https://crunchskills.com/understand-the-most-important-data-structure-for-tech-interviews/"
                         />
                     </div>
-                    <div className=" max-w-sm">
+                    <div className="w-1/3 max-w-xl">
                         <Post
                             imageUrl="https://crunchskills.com/content/images/size/w1200/2020/04/merge-sort-3.png"
                             text=" Merge sort is one of the most beautiful and simplest algorithms. Its very short and at the same time very powerful because of its O(n * log n) speed."

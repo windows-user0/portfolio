@@ -4,8 +4,9 @@ body {
     @apply text-gray-100 bg-gray-900;
 }
 .speech-bubble {
-    @apply text-base p-5 border bg-gray-800 mt-4 inline-block;
+    @apply text-base p-5 border  mt-4 inline-block;
     border-radius: 20px 20px 3px 20px;
+    background-color: #3498db;
 }
 
 .lds-ellipsis {
