@@ -3,11 +3,13 @@ import Loading from "../components/Loading";
 import ExperienceTitle from "../components/ExperienceTitle";
 import ExperienceBadge from "../components/ExperienceBadge";
 import Post from "../components/Post";
+import ExperienceBlockWrapper from "../components/ExperienceBlockWrapper";
+
 export default () => {
     const [iframeLoaded, setIframeLoaded] = useState(false);
     return (
-        <>
-            <div className=" flex flex-col lg:flex-row  h-full justify-center mt-12 md:p-5">
+        <div className="lg:pt-16">
+            <ExperienceBlockWrapper>
                 <div className="flex flex-col max-w-lg items-start w-full flex-grow px-5 md:px-20 justify-start  ">
                     <ExperienceTitle text="Whotab">
                         <ExperienceBadge text="html5" color="blue" />
@@ -47,8 +49,9 @@ export default () => {
                         onLoad={() => setIframeLoaded(true)}
                     ></iframe>
                 </div>
-            </div>
-            <div className=" flex flex-col lg:flex-row  h-full justify-center">
+            </ExperienceBlockWrapper>
+
+            <ExperienceBlockWrapper>
                 <div className="flex max-w-lg flex-col items-start w-full flex-grow  px-5 md:px-20 justify-start py-12 ">
                     <ExperienceTitle text="Cruchskills">
                         <ExperienceBadge text="Ghostjs" color="blue" />
@@ -102,8 +105,9 @@ export default () => {
                         />
                     </div>
                 </div>
-            </div>
-            <div className=" flex flex-col lg:flex-row  h-full justify-center mb-12">
+            </ExperienceBlockWrapper>
+
+            <ExperienceBlockWrapper>
                 <div className="flex flex-col max-w-lg items-start w-full flex-grow  px-5 md:px-20 justify-start py-12 ">
                     <ExperienceTitle text="Cryptocurrencies ">
                         <ExperienceBadge text="Nodejs" color="blue" />
@@ -131,7 +135,7 @@ export default () => {
                     </span>
                 </div>
                 <div className="w-full max-w-3xl"></div>
-            </div>
-        </>
+            </ExperienceBlockWrapper>
+        </div>
     );
 };

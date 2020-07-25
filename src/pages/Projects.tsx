@@ -2,11 +2,12 @@ import * as React from "react";
 import ExperienceTitle from "../components/ExperienceTitle";
 import ExperienceBadge from "../components/ExperienceBadge";
 import PasswordEntropyCalculator from "../components/PasswordEntropyCalculator";
+import ExperienceBlockWrapper from "../components/ExperienceBlockWrapper";
 
 export default () => {
     return (
-        <div className="pt-10">
-            <div className="flex flex-col md:flex-row justify-center mx-5 md:mx-0">
+        <>
+            <ExperienceBlockWrapper>
                 <div className="max-w-sm m-10">
                     <ExperienceTitle text="Algorithm Visualizer">
                         <ExperienceBadge text="react" color="blue" />
@@ -36,8 +37,8 @@ export default () => {
                         alt="Screenshot of visualizer"
                     />
                 </a>
-            </div>
-            <div className="flex flex-col md:flex-row justify-center  mx-5 md:mx-0 mt-10 mb-10">
+            </ExperienceBlockWrapper>
+            <ExperienceBlockWrapper>
                 <div className="max-w-sm  m-10">
                     <ExperienceTitle text="PassQuack">
                         <ExperienceBadge text="npm" color="purple" />
@@ -54,8 +55,8 @@ export default () => {
                         Check it out
                     </a>
                 </div>
-            </div>
-            <div className="flex flex-col md:flex-row justify-center  mx-5 md:mx-0 mt-10 mb-10">
+            </ExperienceBlockWrapper>
+            <ExperienceBlockWrapper>
                 <div className="max-w-sm  m-10">
                     <ExperienceTitle text="Virus Signal">
                         <ExperienceBadge text="react" color="blue" />
@@ -84,7 +85,7 @@ export default () => {
                     Open-source universal signs for immunocompromised, possibly
                     contagious and recovered.
                 </a>
-            </div>
-        </div>
+            </ExperienceBlockWrapper>
+        </>
     );
 };
