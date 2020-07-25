@@ -6,7 +6,7 @@ import ExperienceBlockWrapper from "../components/ExperienceBlockWrapper";
 
 export default () => {
     return (
-        <>
+        <div className="pb-10">
             <ExperienceBlockWrapper>
                 <div className="max-w-sm m-10">
                     <ExperienceTitle text="Algorithm Visualizer">
@@ -29,7 +29,7 @@ export default () => {
                     className=" w-full max-w-lg  md:w-1/4 p-5 mt-5 border-gray-400 hover:border-gray-600   bg-gray-100 border rounded flex flex-shrink flex-col"
                 >
                     <span className=" underlined font-bold underline pb-2 ">
-                        Check on windows-user0.com/visualizer
+                        Check on bestest.tech/visualizer
                     </span>
                     <img
                         src="Visualizer.png"
@@ -52,7 +52,7 @@ export default () => {
                 <div className="w-full max-w-lg  md:w-1/4 p-5 mt-5 border-gray-400 hover:border-gray-600    bg-gray-100 border rounded flex flex-shrink flex-col">
                     <PasswordEntropyCalculator />
                     <a href="/passquack" className="underline pt-5">
-                        Check it out
+                        Check it out{" >"}
                     </a>
                 </div>
             </ExperienceBlockWrapper>
@@ -86,6 +86,6 @@ export default () => {
                     contagious and recovered.
                 </a>
             </ExperienceBlockWrapper>
-        </>
+        </div>
     );
 };
