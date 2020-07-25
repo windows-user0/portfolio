@@ -7,7 +7,7 @@ export default () => {
 
     return (
         <div
-            className="flex flex-col lg:w-1/2 max-w-5xl w-3/4 lg:w-full lg:justify-center  pt-16 lg:pt-10 items-end"
+            className="flex flex-col lg:w-1/2 max-w-2xl w-3/4 lg:w-full lg:justify-center  pt-16 lg:pt-10 items-end"
             style={{ minHeight: "40vh" }}
         >
             {chatCounter >= 0 && (

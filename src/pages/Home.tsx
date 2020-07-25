@@ -5,8 +5,8 @@ import ChatBubbles from "../components/ChatBubbles";
 export default () => {
     return (
         <div className="flex flex-col pt-5 lg:pt-20 content-center items-center justify-center">
-            <div className="flex  flex-col lg:flex-row w-full lg:w-3/4  items-end lg:items-center">
-                <div className="flex flex-col    lg:pr-5 justify-center w-full  md:text-left text-center md:w-1/3">
+            <div className="flex  flex-col lg:flex-row w-full lg:w-3/4 justify-center  items-end lg:items-center">
+                <div className="flex flex-col    lg:pr-5 justify-center w-full items-center   md:text-left text-center md:w-1/3">
                     <div className="text-5xl font-black pt-16">
                         I'm <span className="text-blue-500">Alex</span>
                     </div>
