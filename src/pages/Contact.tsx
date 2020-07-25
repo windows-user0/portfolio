@@ -49,7 +49,7 @@ export default () => {
                 ) : (
                     <>
                         <div className="flex flex-col text-center w-full mb-12">
-                            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">
+                            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 ">
                                 Contact Me!
                             </h1>
 
@@ -74,7 +74,7 @@ export default () => {
                                         name="name"
                                         value={form.name}
                                         onChange={handleUpdate}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 text-white focus:outline-none focus:border-indigo-500 text-base px-4 py-2"
+                                            className="w-full bg-gray-100 rounded shadow  border border-gray-300 text-white focus:outline-none focus:border-indigo-500 text-base px-4 py-2"
                                         type="text"
                                     />
                                 </div>
@@ -84,7 +84,7 @@ export default () => {
                                         name="email"
                                         value={form.email}
                                         onChange={handleUpdate}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 text-white focus:outline-none focus:border-indigo-500 text-base px-4 py-2"
+                                            className="w-full bg-gray-100 rounded shadow border border-gray-300 text-white focus:outline-none focus:border-indigo-500 text-base px-4 py-2"
                                         type="email"
                                     />
                                 </div>
@@ -95,7 +95,7 @@ export default () => {
                                         value={form.message}
                                         name="message"
                                         onChange={handleUpdate}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 text-white focus:outline-none h-48 focus:border-indigo-500 text-base px-4 py-2 resize-none block"
+                                        className="w-full bg-gray-100 shadow rounded border border-gray-300 text-white focus:outline-none h-48 focus:border-indigo-500 text-base px-4 py-2 resize-none block"
                                     ></textarea>
                                 </div>
                                 <div className="p-2 w-full">
@@ -105,9 +105,9 @@ export default () => {
                                         className={`${
                                             buttonDisabled &&
                                             "opacity-50 cursor-not-allowed"
-                                        } flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg`}
+                                        } flex mx-auto mt-5 text-white bg-indigo-500 shadow-xl hover:shadow-md border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg`}
                                     >
-                                        Send
+                                        Contact Me
                                     </button>
                                 </div>
                             </div>

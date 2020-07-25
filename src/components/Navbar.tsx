@@ -3,9 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 export default () => {
     // Get current location to switch classes in JSX.
     const location = useLocation().pathname;
-
+    const isMobile = window.innerWidth > 910
     return (
-        <nav className="flex justify-center">
+        <nav className="flex bg-gray-100 justify-center text-sm lg:text-lg px-5">
             <div className="flex flex-row mt-4 md:mt-10 mb-5 justify-around max-w-xl w-full">
                 <Link
                     className={`  ${
@@ -15,8 +15,9 @@ export default () => {
                     }`}
                     to="/"
                 >
-                    Home
+                    Home 
                 </Link>
+                |
                 <Link
                     className={` ${
                         location === "/experience"
@@ -25,8 +26,9 @@ export default () => {
                     }`}
                     to="/experience"
                 >
-                    Experience
+                    {isMobile ? "Industry Experience" : "Experience"}
                 </Link>
+                |
                 <Link
                     className={` ${
                         location === "/projects"
@@ -35,8 +37,9 @@ export default () => {
                     }`}
                     to="/projects"
                 >
-                    Projects
+                    {isMobile ? "Solo Projects" : "Projects"}
                 </Link>
+                |
                 <Link
                     className={`  ${
                         location === "/contact"
@@ -45,7 +48,7 @@ export default () => {
                     }`}
                     to="/contact"
                 >
-                    Contact
+                    Contact Me
                 </Link>
             </div>
         </nav>

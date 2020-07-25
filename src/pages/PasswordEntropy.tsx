@@ -5,7 +5,7 @@ export default () => {
 
 
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center px-5 pb-20">
             <div className="flex flex-col items-center max-w-xl  pt-20 ">
                 <div className="text-4xl ">Password Entropy Calculator</div>
                 <a

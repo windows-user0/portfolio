@@ -1,14 +1,14 @@
 import * as React from "react";
 export default () => (
     <footer className=" flex justify-end ">
-        <div className="bg-gray-800 w-full self-end flex flex-row justify-between py-5 px-5">
-            <div className="text-gray-200 text-sm">
+        <div className="bg-gray-100 w-full self-end flex flex-row justify-between py-5 px-5">
+            <div className=" text-sm">
                 You're great
                 <span aria-label="heart emoji" role="img">
                     ❤️
                 </span>
             </div>
-            <div className="text-gray-200 text-sm">
+            <div className="text-sm">
                 <a
                     className="flex flex-row hover:underline "
                     href="https://github.com/windows-user0"

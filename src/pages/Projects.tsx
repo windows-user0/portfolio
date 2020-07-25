@@ -25,7 +25,7 @@ export default () => {
                 </div>
                 <a
                     href="/visualizer"
-                    className=" w-full max-w-lg  md:w-1/4 p-5 mt-5 border-gray-500 hover:border-gray-100   bg-gray-800 border rounded flex flex-shrink flex-col"
+                    className=" w-full max-w-lg  md:w-1/4 p-5 mt-5 border-gray-400 hover:border-gray-600   bg-gray-100 border rounded flex flex-shrink flex-col"
                 >
                     <span className=" underlined font-bold underline pb-2 ">
                         Check on windows-user0.com/visualizer
@@ -48,7 +48,7 @@ export default () => {
                         bits or user friendly string.
                     </p>
                 </div>
-                <div className="w-full max-w-lg  md:w-1/4 p-5 mt-5 border-gray-500 hover:border-gray-100   bg-gray-700 border rounded flex flex-shrink flex-col">
+                <div className="w-full max-w-lg  md:w-1/4 p-5 mt-5 border-gray-400 hover:border-gray-600    bg-gray-100 border rounded flex flex-shrink flex-col">
                     <PasswordEntropyCalculator />
                     <a href="/passquack" className="underline pt-5">
                         Check it out
@@ -70,7 +70,7 @@ export default () => {
                 </div>
                 <a
                     href="https://virussignal.com"
-                    className=" w-full max-w-lg  md:w-1/4 p-5 mt-5 border-gray-500 hover:border-gray-100   bg-gray-800 border rounded flex flex-shrink flex-col"
+                    className=" w-full max-w-lg  md:w-1/4 p-5 mt-5 border-gray-400 hover:border-gray-600    bg-gray-100 border rounded flex flex-shrink flex-col"
                 >
                     <span className=" underlined font-bold underline pb-2 text-lg">
                         Check on virussignal.com
