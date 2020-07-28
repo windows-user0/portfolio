@@ -68,7 +68,7 @@ export default () => {
                         <>
                             You can checkout and play with my latest project -{" "}
                             <a href="/visualizer" className="underline">
-                                a algorithm visualizer
+                                an algorithm visualizer
                             </a>
                         </>
                     )}
