@@ -13,7 +13,7 @@ export default () => {
                             I'm <span className="text-blue-500">Alex</span>
                         </div>
                         <div className="text-4xl font-bold  text-center">
-                            And I wan't to be your best hire yet.
+                            And I want to be your best hire yet.
                         </div>
 
                         <div className="flex flex-row pt-10 text-base whitespace-no-wrap lg:text-lg font-semibold items-center justify-center md:justify-start">
