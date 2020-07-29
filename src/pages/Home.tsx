@@ -2,7 +2,6 @@ import * as React from "react";
 import Post from "../components/Post";
 import articles from "../data/articles";
 import ChatBubbles from "../components/ChatBubbles";
-import { PopupText } from "react-calendly";
 export default () => {
     return (
         <>
