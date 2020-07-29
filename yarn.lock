@@ -7961,9 +7961,6 @@ pascalcase@^0.1.1:
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
-password-entropy@../password-entropy:
-  version "1.0.0"
-
 path-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/path-browserify/-/path-browserify-0.0.1.tgz#e6c4ddd7ed3aa27c68a20cc4e50e1a4ee83bbc4a"
@@ -9176,6 +9173,11 @@ react-app-polyfill@^1.0.6:
     raf "^3.4.1"
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
+
+react-calendly@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-calendly/-/react-calendly-1.0.1.tgz#b09e34b27008eb1ae1b8028d50bb2063a12dca19"
+  integrity sha512-oKJierp80bVd44Ca6gj/O22wIcGk6T6GkX0H5LhiS9kNmasTPDL5wJOJ1RNgVSmh3/bojqOklhUbBlPQKoYALQ==
 
 react-dev-utils@^10.2.1:
   version "10.2.1"
