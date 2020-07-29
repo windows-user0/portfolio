@@ -59,7 +59,7 @@ export default () => {
             {" "}
             {openCalendar && portalInModal()}
             <div className="flex flex-col pt-5 lg:pt-20 content-center items-center justify-center">
-                <div className="flex  flex-col xl:flex-row w-full xl:w-3/4 xl:justify-center  items-end md:items-end">
+                <div className="flex  flex-col xl:flex-row w-full xl:w-3/4 xl:justify-center xl:items-center items-end md:items-end">
                     <div className="flex flex-col   w-full lg:pr-5 justify-center w-full items-center   md:text-left text-center ">
                         <div className="text-5xl font-black pt-16">
                             I'm <span className="text-blue-500">Alex</span>
